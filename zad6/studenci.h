@@ -9,7 +9,7 @@ typedef struct _student {
     char nazwa_przed[255];
     float ocena;
     int ects;
-} student; *pstudent;
+} student, *pstudent;
 
 int wczytaj(student dane[100], char *fnazwa);
 
