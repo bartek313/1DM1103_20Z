@@ -6,6 +6,12 @@ all:
 	
 	test-ile: all
 		./mydb baza.csv count_students
+	
+	test-od-konca: all
+		./mydb baza.csv list_students_from_end
+
+	test-sortuj-malejaco: all
+		./mydb baza.csv sort_descending
 
 	test-add: all
 		./mydb "baza.csv" add_grade "1111111" "22222" "3.0"

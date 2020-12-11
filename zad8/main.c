@@ -20,6 +20,15 @@
         {
 	        listuj_oceny(baza);
         }
+        /*else if(strcmp("list_students_from_end", argv[2]) == 0)
+        {
+            listuj_studentow_od_konca(baza);
+        }
+         else if (strcmp("sort_descending", argv[2]) == 0)
+        {
+            baza->lista_studentow = sortuj_przez_wybieranie(baza->lista_studentow);
+            listuj_studentow(baza);
+        }*/
         else if (strcmp("add_student", argv[2]) == 0)
         {
             if(argc == 7)

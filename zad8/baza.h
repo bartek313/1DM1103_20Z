@@ -46,6 +46,7 @@
 	int ile_studentow(SBaza *baza);
     void listuj_przedmioty(SBaza *baza);
     void listuj_oceny(SBaza *baza);
+	//void listuj_studentow_od_konca(SBaza *baza);
     int ile_przedmiotow(SBaza * baza);
     int ile_ocen(SBaza * baza);
     dodaj_studenta(SBaza * baza, char * imie, char * nazwisko, char * nr_albumu, char * email);

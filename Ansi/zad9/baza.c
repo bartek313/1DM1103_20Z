@@ -120,25 +120,33 @@ dodaj_studenta(SBaza * baza, char * imie, char * nazwisko, char * nr_albumu, cha
 	        else
 	            last_ocena->nast = oc;
 	        last_ocena = oc;
-	
-	        fgets(bufor, 254, fin);
-	        o = strtok(bufor, ";");
-	        oc->nr_albumu = (char*) malloc( sizeof(char) * (strlen(o) + 1));
-	        strcpy(oc->nr_albumu, o);
-	
-	        o = strtok(NULL, ";");
+
+			fgets(bufor, 254, fin);
+
+			o = strtok(bufor, ";");
 	        oc->kod_przedmiotu = (char*) malloc( sizeof(char) * (strlen(o) + 1));
 	        strcpy(oc->kod_przedmiotu, o);
+	        
+
+	        o = strtok(NULL, ";");
+	        oc->nr_albumu = (char*) malloc( sizeof(char) * (strlen(o) + 1));
+	        strcpy(oc->nr_albumu, o);
 	
             o = strtok(NULL, ";");
             oc->ocena = atof(o);
 
 	        o = strtok(NULL, ";");
-            if (o != NULL) {
+            if (o != NULL) 
+			{
                 usun_znak_nowej_linii(o, strlen(o));
                 oc->komentarz = (char*) malloc( sizeof(char) * (strlen(o) + 1));
                 strcpy(oc->komentarz, o);
             }
+			else
+			{
+				oc->komentarz = NULL;
+			}
+			
 	    }
 	
 	    return glowa;
@@ -312,8 +320,13 @@ dodaj_studenta(SBaza * baza, char * imie, char * nazwisko, char * nr_albumu, cha
 	    }
 	}
 
-    void listuj_oceny(SBaza *baza) {
-	    Ocena * oc = baza->lista_ocen;
+    void listuj_oceny(SBaza *baza) 
+	{
+		wypisz_liste_ocen(baza->lista_ocen);
+	}
+
+	void wypisz_liste_ocen(Ocena * oc) 
+	{
 	    while (oc != NULL) {
 	        printf("%s %s %f %s\n", oc->kod_przedmiotu, oc->nr_albumu, oc->ocena, oc->komentarz);
 	        oc = oc->nast;
@@ -385,5 +398,157 @@ dodaj_studenta(SBaza * baza, char * imie, char * nazwisko, char * nr_albumu, cha
 	    free(baza);
 	}
 
+Ocena * filtruj(Ocena * glowa, char *szukany_tekst, char pole_do_filtrowania)
+{
+    Ocena * oc = glowa;
+    Ocena *last_ocena = NULL;
+	Ocena *nowa_glowa = NULL;
+	
+    while (oc != NULL) 
+    {	
+		int porownanie;
+		switch (pole_do_filtrowania)
+		{
+		case 'P':
+			porownanie = strcmp(szukany_tekst, oc->kod_przedmiotu);
+			break;
+		case 'A':
+			porownanie = strcmp(szukany_tekst, oc->nr_albumu);
+			break;
+		default:
+			return NULL;
+		}
+
+        if(porownanie == 0)
+        {
+            Ocena *noc = (Ocena*) malloc(sizeof(Ocena));
+            noc->nast = NULL;
+
+            if (last_ocena == NULL)
+            {
+                nowa_glowa = noc;
+            }
+            else
+            {
+                last_ocena->nast = noc;
+            }
+                
+            last_ocena = noc;
+            
+            noc->nr_albumu = (char*) malloc( sizeof(char) * (strlen(oc->nr_albumu)));
+	        strcpy(noc->nr_albumu, oc->nr_albumu);
+
+            noc->kod_przedmiotu = (char*) malloc( sizeof(char) * (strlen(oc->kod_przedmiotu)));
+	        strcpy(noc->kod_przedmiotu, oc->kod_przedmiotu);
+	        
+			if (oc->komentarz != NULL) {
+            	noc->komentarz = (char*) malloc( sizeof(char) * (strlen(oc->komentarz)));
+	        	strcpy(noc->komentarz, oc->komentarz);
+	    	}
+	    	
+            noc->ocena = oc->ocena;
+         
+        }
+
+        oc = oc->nast;
+    }
+    
+    return nowa_glowa;
+}
 
 
+
+Student * ostatni(Student *glowa) {
+    Student *el = glowa;
+    if (el != NULL) {
+        while (el->nast != NULL)
+            el = el->nast;
+
+        return el;
+    } else
+        return NULL;
+}
+
+Student * usun(Student *glowa, Student *el) {
+    Student *c = glowa;
+    if (glowa == el) {
+        glowa = glowa->nast;
+    } else {
+		Student *poprz = glowa;
+        while (c != NULL) {
+            if (c == el) {
+                poprz->nast = c->nast;
+                
+                break;
+            }
+			poprz = c;
+
+            c = c->nast;
+        }
+    }
+    c->nast = NULL;
+    return glowa;
+}
+
+Student * najwiekszy(Student *el) {
+    Student * max = NULL;
+    while (el != NULL) {
+        if (max == NULL) {
+            max = el;
+        } else {
+            if ( strcmp(el->nazwisko, max->nazwisko) > 0 ) 
+                max = el;
+        }
+        el = el->nast;
+    }
+    return max;
+}
+
+Student * najmniejszy(Student *el) {
+    Student * min = NULL;
+    while (el != NULL) {
+        if (min == NULL) {
+            min = el;
+        } else {
+            if ( strcmp(el->nazwisko, min->nazwisko) < 0 ) 
+                min = el;
+        }
+        el = el->nast;
+    }
+    return min;
+}
+
+// kolejnosc: rosnąca dla 0, malejąca dla 1
+Student * sortuj_studentow_przez_wybieranie(Student *glowa, int kolejnosc) {
+    Student * nglowa = NULL;
+    Student * m;
+    Student * o; // = NULL;
+
+    while (glowa != NULL) 
+    {
+        if(kolejnosc == 0)
+        {
+            m = najmniejszy(glowa);
+        }
+        else
+        {
+            m = najwiekszy(glowa);
+        }
+        
+        glowa = usun(glowa, m);
+        
+        o = ostatni(nglowa);
+        if (o == NULL) {
+            nglowa = m;
+        } else {
+            o->nast = m;
+            //m->poprz = o;
+        }
+        // o = m;
+
+        // printf("Najwiekszy: %s\n", m->nazwisko);
+        // wypisz_rekurencyjnie(glowa);
+    }
+
+    return nglowa;
+}
