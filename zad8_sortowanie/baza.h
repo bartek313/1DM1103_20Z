@@ -54,11 +54,10 @@
 
 	void wypisz_liste_ocen(Ocena * oc);
     Ocena * filtruj(Ocena * glowa, char *kod_przedmiotu, char pole_do_filtrowania);
-    
-    Student * sortuj_studentow_przez_wybieranie(Student *glowa, int kolejnosc);
-    //Przedmiot * sortuj_przedmioty_przez_wybieranie(Przedmiot *glowa, int kolejnosc);
-    
-    
+    void listuj_studentow_od_konca(SBaza *baza);
 
-	
+	Student * sortuj_studentow_przez_wybieranie(Student *glowa, int kolejnosc);
+    Przedmiot * sortuj_przedmioty_przez_wybieranie1(Przedmiot *glowa, int kolejnosc);
+    Przedmiot * sortuj_przedmioty_przez_wybieranie2(Przedmiot *glowa, int kolejnosc);
+    
 	#endif

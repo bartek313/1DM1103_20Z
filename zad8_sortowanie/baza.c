@@ -552,3 +552,202 @@ Student * sortuj_studentow_przez_wybieranie(Student *glowa, int kolejnosc) {
 
     return nglowa;
 }
+
+
+
+
+
+
+Przedmiot * ostatni1(Przedmiot *glowa) {
+    Przedmiot *el = glowa;
+    if (el != NULL) {
+        while (el->nast != NULL)
+            el = el->nast;
+
+        return el;
+    } else
+        return NULL;
+}
+
+Przedmiot * usun1(Przedmiot *glowa, Przedmiot *el) {
+    Przedmiot *c = glowa;
+    if (glowa == el) {
+        glowa = glowa->nast;
+    } else {
+		Przedmiot *poprz = glowa;
+        while (c != NULL) {
+            if (c == el) {
+                poprz->nast = c->nast;
+                
+                break;
+            }
+			poprz = c;
+
+            c = c->nast;
+        }
+    }
+    c->nast = NULL;
+    return glowa;
+}
+
+Przedmiot * najwiekszy1(Przedmiot *el) {
+    Przedmiot * max = NULL;
+    while (el != NULL) {
+        if (max == NULL) {
+            max = el;
+        } else {
+            if ( strcmp(el->kod_przedmiotu, max->kod_przedmiotu) > 0 ) 
+                max = el;
+        }
+        el = el->nast;
+    }
+    return max;
+}
+
+Przedmiot * najmniejszy1(Przedmiot *el) {
+    Przedmiot * min = NULL;
+    while (el != NULL) {
+        if (min == NULL) {
+            min = el;
+        } else {
+            if ( strcmp(el->kod_przedmiotu, min->kod_przedmiotu) < 0 ) 
+                min = el;
+        }
+        el = el->nast;
+    }
+    return min;
+}
+
+// kolejnosc: rosnąca dla 0, malejąca dla 1
+Przedmiot * sortuj_przedmioty_przez_wybieranie1(Przedmiot *glowa, int kolejnosc) {
+    Przedmiot * nglowa = NULL;
+    Przedmiot * m;
+    Przedmiot * o; // = NULL;
+
+    while (glowa != NULL) 
+    {
+        if(kolejnosc == 0)
+        {
+            m = najmniejszy1(glowa);
+        }
+        else
+        {
+            m = najwiekszy1(glowa);
+        }
+        
+        glowa = usun1(glowa, m);
+        
+        o = ostatni1(nglowa);
+        if (o == NULL) {
+            nglowa = m;
+        } else {
+            o->nast = m;
+            //m->poprz = o;
+        }
+        // o = m;
+
+        // printf("Najwiekszy: %s\n", m->nazwisko);
+        // wypisz_rekurencyjnie(glowa);
+    }
+
+    return nglowa;
+}
+
+
+
+
+
+Przedmiot * ostatni2(Przedmiot *glowa) {
+    Przedmiot *el = glowa;
+    if (el != NULL) {
+        while (el->nast != NULL)
+            el = el->nast;
+
+        return el;
+    } else
+        return NULL;
+}
+
+Przedmiot * usun2(Przedmiot *glowa, Przedmiot *el) {
+    Przedmiot *c = glowa;
+    if (glowa == el) {
+        glowa = glowa->nast;
+    } else {
+		Przedmiot *poprz = glowa;
+        while (c != NULL) {
+            if (c == el) {
+                poprz->nast = c->nast;
+                
+                break;
+            }
+			poprz = c;
+
+            c = c->nast;
+        }
+    }
+    c->nast = NULL;
+    return glowa;
+}
+
+Przedmiot * najwiekszy2(Przedmiot *el) {
+    Przedmiot * max = NULL;
+    while (el != NULL) {
+        if (max == NULL) {
+            max = el;
+        } else {
+            if ( strcmp(el->nazwa, max->nazwa) > 0 ) 
+                max = el;
+        }
+        el = el->nast;
+    }
+    return max;
+}
+
+Przedmiot * najmniejszy2(Przedmiot *el) {
+    Przedmiot * min = NULL;
+    while (el != NULL) {
+        if (min == NULL) {
+            min = el;
+        } else {
+            if ( strcmp(el->nazwa, min->nazwa) < 0 ) 
+                min = el;
+        }
+        el = el->nast;
+    }
+    return min;
+}
+
+// kolejnosc: rosnąca dla 0, malejąca dla 1
+Przedmiot * sortuj_przedmioty_przez_wybieranie2(Przedmiot *glowa, int kolejnosc) {
+    Przedmiot * nglowa = NULL;
+    Przedmiot * m;
+    Przedmiot * o; // = NULL;
+
+    while (glowa != NULL) 
+    {
+        if(kolejnosc == 0)
+        {
+            m = najmniejszy2(glowa);
+        }
+        else
+        {
+            m = najwiekszy2(glowa);
+        }
+        
+        glowa = usun2(glowa, m);
+        
+        o = ostatni2(nglowa);
+        if (o == NULL) {
+            nglowa = m;
+        } else {
+            o->nast = m;
+            //m->poprz = o;
+        }
+        // o = m;
+
+        // printf("Najwiekszy: %s\n", m->nazwisko);
+        // wypisz_rekurencyjnie(glowa);
+    }
+
+    return nglowa;
+}

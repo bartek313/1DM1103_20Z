@@ -41,7 +41,6 @@
             {
                 dodaj_ocene(baza, argv[3], argv[4], 0, NULL);
             } 
-
         }
         else if(strcmp("add_student_to_course", argv[2]) == 0)
         {
@@ -75,13 +74,16 @@
             baza->lista_studentow = sortuj_studentow_przez_wybieranie(baza->lista_studentow, 0);
             listuj_studentow(baza);
         }
-
-        /*else if (strcmp("sort_courses_ascending", argv[2]) == 0)
+        else if (strcmp("sort_courses_by_code", argv[2]) == 0)
         {
-            baza->lista_przedmiotow = sortuj_przedmioty_przez_wybieranie1(baza->lista_przedmiotow);
+            baza->lista_przedmiotow = sortuj_przedmioty_przez_wybieranie1(baza->lista_przedmiotow, 0);
             listuj_przedmioty(baza);
-        }*/
-
+        }
+        else if(strcmp("sort_courses_by_name", argv[2]) == 0)
+        {
+            baza->lista_przedmiotow = sortuj_przedmioty_przez_wybieranie2(baza->lista_przedmiotow, 0);
+            listuj_przedmioty(baza);
+        }
         else if (strcmp("filter_grades_by_course", argv[2]) == 0) 
         {
             if(argc == 4)
