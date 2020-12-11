@@ -741,12 +741,7 @@ Przedmiot * sortuj_przedmioty_przez_wybieranie2(Przedmiot *glowa, int kolejnosc)
             nglowa = m;
         } else {
             o->nast = m;
-            //m->poprz = o;
         }
-        // o = m;
-
-        // printf("Najwiekszy: %s\n", m->nazwisko);
-        // wypisz_rekurencyjnie(glowa);
     }
 
     return nglowa;
